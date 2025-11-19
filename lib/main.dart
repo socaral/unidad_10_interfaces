@@ -331,7 +331,8 @@ class FirstPage extends StatelessWidget {
           // cuando el usario toca se define lo que va hacer
           onTap: () => Navigator.push(
             context,
-            // MaterialPageRoute define una ruta/pantalla nueva con transición tipo Material Design.
+            // MaterialPageRoute define una ruta/pantalla 
+            //nueva con transición tipo Material Design.
             MaterialPageRoute(builder: (_) => SecondPage()),  
           ),
           // Hero widget que permite la animación compartida entre pantallas.
@@ -354,10 +355,13 @@ class SecondPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Segunda página")),
       body: const Center(
-        // tag es el mismo que en FirstPage para vincular las dos imágenes en la animación.
+        // tag es el mismo que en FirstPage para vincular 
+        //las dos imágenes en la animación.
         child: Hero(
           tag: "foto",
-          child: Image( // carga otra imagen desde la misma URL, pero con tamaño diferente.
+          child: Image( 
+            // carga otra imagen desde la misma URL,
+            // pero con tamaño diferente.
             image: NetworkImage("https://picsum.photos/300"),
             width: 300,
           ),
@@ -375,7 +379,11 @@ class FeedbackVisualDemo extends StatelessWidget {
       appBar: AppBar(title: const Text("Feedback Visual")),
       body: Center(
         child: InkWell(
-          // onTap define lo que ocurre cuando se toca el área del InkWell (aquí no hace nada).
+          //detecta gestos táctiles (tap, long press, etc.) 
+          //y muestra un efecto visual “de tinta” (ripple) encima de su hijo
+
+          // onTap define lo que ocurre cuando se toca el
+          // área del InkWell (aquí no hace nada).
           onTap: () {},
            // Esquinas redondeadas del efecto “onda” (ripple).
           borderRadius: BorderRadius.circular(12),
@@ -386,7 +394,9 @@ class FeedbackVisualDemo extends StatelessWidget {
               color: Colors.blue,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Text(//Contenido interno del contenedor va a ser un Texto en este ejemplo
+            child: const Text(
+              //Contenido interno del 
+              //contenedor va a ser un Texto en este ejemplo
               "Tócame",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
@@ -398,7 +408,9 @@ class FeedbackVisualDemo extends StatelessWidget {
 }
 
 /// 4.2 Feedback háptico básico--> 
-/// respuesta que nos da la aplicación cuando haces algo (tocar un botón, arrastrar, etc) y que está relacionado con el tacto
+/// respuesta que nos da la aplicación 
+/// cuando haces algo (tocar un botón, arrastrar, etc) 
+/// y que está relacionado con el tacto
 class FeedbackHapticoDemo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -406,7 +418,8 @@ class FeedbackHapticoDemo extends StatelessWidget {
       appBar: AppBar(title: const Text("Feedback Háptico")),
       body: Center(
         child: Column(
-          // mainAxisAlignment controla cómo se distribuyen los hijos en el eje principal (vertical).
+          // mainAxisAlignment controla cómo se
+          // distribuyen los hijos en el eje principal (vertical).
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
@@ -448,16 +461,20 @@ class BotonInteractivo extends StatelessWidget {
       appBar: AppBar(title: const Text("Feedback Combinado")),
       body: Center(
         child: GestureDetector(
-          // onLongPress define lo que ocurre cuando se mantiene pulsado (pulsación larga) sobre el hijo.
+          // onLongPress define lo que ocurre cuando
+          // se mantiene pulsado (pulsación larga) sobre el hijo.
           onLongPress: () {
-            // Provoca una vibración de intensidad media en el dispositivo (feedback háptico).
+            // Provoca una vibración de intensidad 
+            //media en el dispositivo (feedback háptico).
             HapticFeedback.mediumImpact();
-             // Muestra un SnackBar (mensaje flotante) en la parte inferior de la pantalla.
+             // Muestra un SnackBar (mensaje flotante)
+             // en la parte inferior de la pantalla.
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Acción confirmada")),
             );
           },
-          // child es el contenido visual sobre el que se detectan los gestos (pulsación larga).
+          // child es el contenido visual sobre el que
+          // se detectan los gestos (pulsación larga).
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -475,18 +492,30 @@ class BotonInteractivo extends StatelessWidget {
   }
 }
 
-/// Botón Natural: animación + feedback háptico + SnackBar
+/// Botón Natural: animación + 
+/// feedback háptico (tacto) + 
+/// SnackBar
 class BotonNaturalDemo extends StatefulWidget {
   @override
   _BotonNaturalDemoState createState() => _BotonNaturalDemoState();
 }
 
 class _BotonNaturalDemoState extends State<BotonNaturalDemo>
-  // Mixin que provee un Ticker para animaciones (necesario para AnimationController.vsync).
+  // Mixin que provee un Ticker para animaciones 
+  //(necesario para AnimationController.vsync).
+
+  //Single → uno solo
+  //Ticker → reloj de animaciones
+  // Provider → que lo proporciona
+  // State → para usarlo en una clase de estado (State)
+  // Mixin → que se añade con with como comportamiento extra
+
     with SingleTickerProviderStateMixin {
-  // Declaramos un AnimationController que controlará el tiempo y los valores de la animación.
+  // Declaramos un AnimationController que
+  // controlará el tiempo y los valores de la animación.
   late AnimationController _controller;
-  // Declaramos una animación de tipo double que usaremos para escalar (hacer más grande/pequeño) el botón.
+  // Declaramos una animación de tipo double 
+  //que usaremos para escalar (hacer más grande/pequeño) el botón.
   late Animation<double> _scaleAnimation;
 
   @override
@@ -496,19 +525,27 @@ class _BotonNaturalDemoState extends State<BotonNaturalDemo>
     // Animación para el efecto de "presionado"
     _controller = AnimationController(
       duration: const Duration(milliseconds: 150),
-       // vsync: this usa el Ticker proporcionado por el mixin para optimizar la animación.
+       // vsync: this usa el Ticker proporcionado 
+       //por el mixin para optimizar la animación.
+       //El vsync es la idea de sincronizar 
+       //las animaciones con esos refrescos 
+       //para que se vean fluidas y sin “saltos”.
       vsync: this,
-      // lowerBound es el valor mínimo de la animación (escala 0.9 → ligeramente más pequeño).
+      // lowerBound es el valor mínimo de la
+      // animación (escala 0.9 → ligeramente más pequeño).
       lowerBound: 0.9,
-      // upperBound es el valor máximo de la animación (escala 1.0 → tamaño normal).
+      // upperBound es el valor máximo de la 
+      //animación (escala 1.0 → tamaño normal).
       upperBound: 1.0,
     );
    
     // Creamos una animación curva (suavizada) a partir del controlador.
     _scaleAnimation = CurvedAnimation(
-      // parent indica qué AnimationController se usará como base.
+      // parent indica qué AnimationController 
+      //se usará como base.
       parent: _controller,
-      // curve define cómo cambia la animación en el tiempo (easeInOut: acelera y frena suavemente).
+      // curve define cómo cambia la animación 
+      //en el tiempo (easeInOut: acelera y frena suavemente).
       curve: Curves.easeInOut,
     );
 
@@ -523,9 +560,11 @@ class _BotonNaturalDemoState extends State<BotonNaturalDemo>
   }
 
   void _accionBoton(BuildContext context) {
-    // Dispara una vibración ligera en el dispositivo como feedback háptico.
+    // Dispara una vibración ligera en el 
+    //dispositivo como feedback háptico.
     HapticFeedback.lightImpact(); // Vibración ligera
-    // Muestra un SnackBar en la parte inferior con un mensaje de éxito.
+    // Muestra un SnackBar en la parte
+    // inferior con un mensaje de éxito.
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("¡Acción ejecutada con éxito!"),
@@ -541,18 +580,26 @@ class _BotonNaturalDemoState extends State<BotonNaturalDemo>
       appBar: AppBar(title: const Text("Botón Natural")),
       body: Center(
         child: GestureDetector(
-          //onTapDown se ejecuta cuando el usuario empieza a tocar (presiona) el botón.
+          //onTapDown se ejecuta cuando el usuario
+          // empieza a tocar (presiona) el botón.
           onTapDown: (_) => _controller.reverse(), // Efecto presionar
-          // onTapUp se ejecuta cuando el usuario levanta el dedo después del toque.
+          // onTapUp se ejecuta cuando el 
+          //usuario levanta el dedo después del toque.
           onTapUp: (_) {
             _controller.forward(); // Regresar al estado normal
             _accionBoton(context);
           },
-          // onTapCancel se ejecuta si el gesto se cancela (por ejemplo, el dedo se mueve fuera del botón).
+          // onTapCancel se ejecuta si el
+          // gesto se cancela (por ejemplo,
+          // el dedo se mueve fuera del botón).
           onTapCancel: () => _controller.forward(),
-          // child es el contenido visual sobre el que aplicamos los gestos de pulsación.
+          // child es el contenido visual
+          // sobre el que aplicamos 
+          //los gestos de pulsación.
           child: ScaleTransition(
-            // scale es la animación de escala que se aplicará al hijo (efecto de agrandar/encoger).
+            // scale es la animación de escala 
+            //que se aplicará al hijo 
+            //(efecto de agrandar/encoger).
             scale: _scaleAnimation,
             //widget al que se le aplica el efecto de escala.
             child: AnimatedContainer(
@@ -567,7 +614,8 @@ class _BotonNaturalDemoState extends State<BotonNaturalDemo>
                     color: Colors.black26,
                     //indica difuminada que está la sombra.
                     blurRadius: 10,
-                    // offset indica el desplazamiento de la sombra (0 en X, 5 en Y).
+                    // offset indica el desplazamiento de
+                    // la sombra (0 en X, 5 en Y).
                     offset: Offset(0, 5),
                   )
                 ],
