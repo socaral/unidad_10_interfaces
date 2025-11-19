@@ -322,6 +322,7 @@ class _ExplicitAnimationDemoState extends State<ExplicitAnimationDemo>
 /// Definimos la clase FirstPage com un widget sin estado
 class FirstPage extends StatelessWidget {
   @override
+  //camibo
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Primera página")),
